@@ -22,15 +22,32 @@
     }
   ],
   "paths": {
-    "/api/users/all": {
+    "/api/users/register": {
       "post": {
         "tags": [
           "Users"
         ],
         "description": "Get All Users",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "example": "any"
+                  },
+                  "data": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -42,18 +59,18 @@
         ],
         "description": "Get Current User",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/api/users/logout": {
       "post": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "Logout and clear cookie of logged in user",
         "responses": {
           "200": {
             "description": "OK"

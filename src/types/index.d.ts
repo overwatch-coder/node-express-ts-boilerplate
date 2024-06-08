@@ -1,8 +1,8 @@
-interface IUser {
-  name: string;
-  email: string;
-  password: string;
-}
+import {
+  userQuerySchemaWithZod,
+  userSchemaWithZod,
+} from "@/schema/user.schema";
+import { z } from "zod";
 
-export type User = IUser;
-export type CurrentUser = Omit<IUser, "password">;
+export type UserBody = z.infer<typeof userSchemaWithZod>;
+export type UserQuery = z.infer<typeof userQuerySchemaWithZod>;

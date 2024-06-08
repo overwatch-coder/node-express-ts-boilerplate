@@ -28,7 +28,7 @@ import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 // import middleware
 import { errorHandler, notFound } from "@/middleware/error.middleware";
 
-// import logger
+// other imports such as logger, rateLimiter etc.
 import { logger } from "@/lib/logger";
 
 const runServer = async () => {

@@ -1,8 +1,8 @@
 import { generateToken, hashPassword } from "@/lib";
-import { CurrentUser, User } from "@/types";
+import { UserBody, UserQuery } from "@/types";
 import { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { matchedData } from "express-validator";
+// import { matchedData } from "express-validator";
 
 /**
   @desc    REGISTER USER
@@ -11,11 +11,16 @@ import { matchedData } from "express-validator";
   @access  public
 */
 export const registerUser = expressAsyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: Request<any, any, UserBody, any>, res: Response) => {
+    req.body;
     // #swagger.tags = ['Users']
     // #swagger.description = 'Get All Users'
 
-    const { password, ...data } = matchedData<User>(req);
+    // get data using express-validator
+    // const { password, ...data } = matchedData<User>(req);
+
+    // get data using zod
+    const { password, ...data } = req.body;
 
     const token = generateToken(res, data.email);
 
@@ -38,11 +43,15 @@ export const registerUser = expressAsyncHandler(
   @access   public
 */
 export const findCurrentUser = expressAsyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: Request<any, any, any, UserQuery>, res: Response) => {
     // #swagger.tags = ['Users']
     // #swagger.description = 'Get Current User'
 
-    const data = matchedData<CurrentUser>(req);
+    // get data using express-validator
+    // const data = matchedData<CurrentUser>(req);
+
+    // get data using zod
+    const data = req.query;
 
     res.status(200).json({
       message: "Get Current User",
@@ -61,8 +70,10 @@ export const findCurrentUser = expressAsyncHandler(
 */
 export const logoutUser = expressAsyncHandler(
   async (req: Request, res: Response) => {
+    // #swagger.tags = ['Users']
+    // #swagger.description = "Logout and clear cookie of logged in user"
     res.cookie("access_token", "", {
-      httpOnly: true,
+      httpOnly: (process.env.NODE_ENV as string) === "production",
       expires: new Date(0),
     });
 
